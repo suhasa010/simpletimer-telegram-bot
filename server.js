@@ -237,7 +237,7 @@ bot.action("stop", ctx => {
 
 bot.action("snooze", ctx => {
   ctx.telegram.getChat(ctx.chat.id).then(function (chat) {
-    if (chat.type == "group" || chat.type == "supergroup") {
+    if (chat.type === "group" || chat.type === "supergroup") {
       ctx.telegram.getChatMember(ctx.chat.id, ctx.from.id).then(function (chatMember) {
         if (chatMember.status == "administrator" || chatMember.status == "creator") {
           snooze(ctx)
@@ -247,7 +247,7 @@ bot.action("snooze", ctx => {
           ctx.answerCbQuery('You need to be an admin to do this!');
       });
     }
-    else {
+    else if(chat.type === "private") {
       snooze(ctx)
       ctx.answerCbQuery("Snoozed all timers by 10 minutes.");
     }
